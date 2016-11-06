@@ -12,85 +12,53 @@ import CoreImage
 class ViewController: UIViewController {
 
     @IBOutlet weak var photoIV: UIImageView!
-    var imagePicker = UIImagePickerController()
-    var imageFrames: [CGRect] = []
+    private var imagePicker = UIImagePickerController()
+    private var imageFrames: [CGRect] = []
     
     // MARK: - User action
     
-    @IBAction func pick(sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+    @IBAction func pick(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
             imagePicker.allowsEditing = false
             imagePicker.delegate = self
             
-            presentViewController(imagePicker, animated: true , completion: nil)
+            present(imagePicker, animated: true, completion: nil)
         }
     }
 
-    @IBAction func swap(sender: UIButton) {
+    @IBAction func swap(_ sender: UIButton) {
         // detect all faces
-        var facesFromImage = detectFaces()
+        let facesFromImage = detectFaces()
         // swap faces randomly
         for face in facesFromImage {
             let randomFrameIndex = Int(arc4random_uniform(UInt32(imageFrames.count)))
             let randomFrame = imageFrames[randomFrameIndex]
             
-            // may be slow
             drawAbovePhotoIv(face, frame: randomFrame)
         }
     }
     
     // MARK: - Detection
     
-    func detectFaces() -> [UIImage] {
+    private func detectFaces() -> [UIImage] {
         var faces: [UIImage] = []
-       
-        // handle image orientation
-        var exifOrientation = 6
-        switch (photoIV.image!.imageOrientation) {
-        case .Up:
-            exifOrientation = 1
-            break;
-        case .Down:
-            exifOrientation = 3;
-            break;
-        case .Left:
-            exifOrientation = 8;
-            break;
-        case .Right:
-            exifOrientation = 6;
-            break;
-        case .UpMirrored:
-            exifOrientation = 2;
-            break;
-        case .DownMirrored:
-            exifOrientation = 4;
-            break;
-        case .LeftMirrored:
-            exifOrientation = 5;
-            break;
-        case .RightMirrored:
-            exifOrientation = 7;
-            break;
-        default:
-            break;
-        }
-       
-        var imageCI = CIImage(CGImage: photoIV.image!.CGImage)
-        var context = CIContext(options: [kCIContextUseSoftwareRenderer: true])     // BSXPCMessage prevention
-        var options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
-        var detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: options)
-        var features = detector.featuresInImage(imageCI, options: [CIDetectorImageOrientation: exifOrientation])
         
-        println("faces count: \(features.count)")
+        let imageCI = CIImage(cgImage: photoIV.image!.cgImage!)
+        let context = CIContext(options: [kCIContextUseSoftwareRenderer: true])     // BSXPCMessage prevention
+        let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+        let detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: options)
+        let features = detector?.features(in: imageCI, options: [CIDetectorImageOrientation: exif()])
+        
+        print("faces count: \(features?.count)")
         
         // for all faces
         for f in features as! [CIFaceFeature] {
-            var faceRect = f.bounds
+            let faceRect = f.bounds
             imageFrames.append(faceRect)
             // crop them and save to image array
-            var croppedImageRef = CGImageCreateWithImageInRect(photoIV.image!.CGImage, faceRect)
-            var croppedImage: UIImage! = UIImage(CGImage: croppedImageRef)
+            let croppedImageRef = photoIV.image!.cgImage!.cropping(to: faceRect)
+            let croppedImage: UIImage! = UIImage(cgImage: croppedImageRef!)
             
             faces.append(croppedImage!)
         }
@@ -100,24 +68,51 @@ class ViewController: UIViewController {
     
     // MARK: - Swapping faces
     
-    func drawAbovePhotoIv(faceImage: UIImage, frame: CGRect) {
+    private func drawAbovePhotoIv(_ faceImage: UIImage, frame: CGRect) {
         UIGraphicsBeginImageContext(photoIV.image!.size)
-        photoIV.image!.drawInRect(CGRectMake(0, 0, photoIV.image!.size.width, photoIV.image!.size.height))
-        faceImage.drawInRect(CGRectMake(photoIV.image!.size.width - faceImage.size.width, photoIV.image!.size.height - faceImage.size.height, faceImage.size.width, faceImage.size.height))
+        photoIV.image!.draw(in: CGRect(x: 0, y: 0, width: photoIV.image!.size.width, height: photoIV.image!.size.height))
+        faceImage.draw(in: CGRect(x: photoIV.image!.size.width - faceImage.size.width, y: photoIV.image!.size.height - faceImage.size.height, width: faceImage.size.width, height: faceImage.size.height))
         let res = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             self.photoIV.image = res
         })
+    }
+    
+    // MARK: - Helpers
+    
+    private func exif() -> Int {
+        // handle image orientation
+        var exifOrientation = 6
+        switch (photoIV.image!.imageOrientation) {
+        case .up:
+            exifOrientation = 1
+        case .down:
+            exifOrientation = 3
+        case .left:
+            exifOrientation = 8
+        case .right:
+            exifOrientation = 6
+        case .upMirrored:
+            exifOrientation = 2
+        case .downMirrored:
+            exifOrientation = 4
+        case .leftMirrored:
+            exifOrientation = 5
+        case .rightMirrored:
+            exifOrientation = 7
+        }
+        
+        return exifOrientation
     }
     
     // MARK: - Extensions
 }
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
+        self.dismiss(animated: true, completion: nil)
         photoIV.image = image
     }
 }
