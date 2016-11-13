@@ -13,6 +13,11 @@
 		1F139DE31B4CF44600FED5D6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F139DE21B4CF44600FED5D6 /* Images.xcassets */; };
 		1F139DE61B4CF44600FED5D6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F139DE41B4CF44600FED5D6 /* LaunchScreen.xib */; };
 		1F139DF21B4CF44600FED5D6 /* FaceSwapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F139DF11B4CF44600FED5D6 /* FaceSwapTests.swift */; };
+		1F3C97151DCF7F5800E6AA96 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F3C97141DCF7F5800E6AA96 /* test.jpg */; };
+		1FD2AE361DD8B14D008DB3D1 /* UIImage-FaceSwap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD2AE351DD8B14D008DB3D1 /* UIImage-FaceSwap.swift */; };
+		1FD2AE381DD8B178008DB3D1 /* Double-FaceSwap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD2AE371DD8B178008DB3D1 /* Double-FaceSwap.swift */; };
+		1FD2AE3A1DD8B50B008DB3D1 /* FaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD2AE391DD8B50B008DB3D1 /* FaceManager.swift */; };
+		1FD2AE3C1DD8B660008DB3D1 /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD2AE3B1DD8B660008DB3D1 /* Face.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,11 @@
 		1F139DEB1B4CF44600FED5D6 /* FaceSwapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceSwapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F139DF01B4CF44600FED5D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F139DF11B4CF44600FED5D6 /* FaceSwapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceSwapTests.swift; sourceTree = "<group>"; };
+		1F3C97141DCF7F5800E6AA96 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
+		1FD2AE351DD8B14D008DB3D1 /* UIImage-FaceSwap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage-FaceSwap.swift"; sourceTree = "<group>"; };
+		1FD2AE371DD8B178008DB3D1 /* Double-FaceSwap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double-FaceSwap.swift"; sourceTree = "<group>"; };
+		1FD2AE391DD8B50B008DB3D1 /* FaceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceManager.swift; sourceTree = "<group>"; };
+		1FD2AE3B1DD8B660008DB3D1 /* Face.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,10 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				1F139DDB1B4CF44600FED5D6 /* AppDelegate.swift */,
+				1FD2AE3E1DD8BFE4008DB3D1 /* Resources */,
+				1FD2AE3D1DD8BFDB008DB3D1 /* Model */,
 				1F139DDD1B4CF44600FED5D6 /* ViewController.swift */,
 				1F139DDF1B4CF44600FED5D6 /* Main.storyboard */,
-				1F139DE21B4CF44600FED5D6 /* Images.xcassets */,
-				1F139DE41B4CF44600FED5D6 /* LaunchScreen.xib */,
 				1F139DD91B4CF44600FED5D6 /* Supporting Files */,
 			);
 			path = FaceSwap;
@@ -90,6 +100,9 @@
 		1F139DD91B4CF44600FED5D6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1F139DE41B4CF44600FED5D6 /* LaunchScreen.xib */,
+				1FD2AE351DD8B14D008DB3D1 /* UIImage-FaceSwap.swift */,
+				1FD2AE371DD8B178008DB3D1 /* Double-FaceSwap.swift */,
 				1F139DDA1B4CF44600FED5D6 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -110,6 +123,24 @@
 				1F139DF01B4CF44600FED5D6 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1FD2AE3D1DD8BFDB008DB3D1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1FD2AE3B1DD8B660008DB3D1 /* Face.swift */,
+				1FD2AE391DD8B50B008DB3D1 /* FaceManager.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		1FD2AE3E1DD8BFE4008DB3D1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F3C97141DCF7F5800E6AA96 /* test.jpg */,
+				1F139DE21B4CF44600FED5D6 /* Images.xcassets */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +230,7 @@
 			files = (
 				1F139DE11B4CF44600FED5D6 /* Main.storyboard in Resources */,
 				1F139DE61B4CF44600FED5D6 /* LaunchScreen.xib in Resources */,
+				1F3C97151DCF7F5800E6AA96 /* test.jpg in Resources */,
 				1F139DE31B4CF44600FED5D6 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,7 +249,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FD2AE3A1DD8B50B008DB3D1 /* FaceManager.swift in Sources */,
 				1F139DDE1B4CF44600FED5D6 /* ViewController.swift in Sources */,
+				1FD2AE361DD8B14D008DB3D1 /* UIImage-FaceSwap.swift in Sources */,
+				1FD2AE381DD8B178008DB3D1 /* Double-FaceSwap.swift in Sources */,
+				1FD2AE3C1DD8B660008DB3D1 /* Face.swift in Sources */,
 				1F139DDC1B4CF44600FED5D6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,6 +385,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V62PZ8S9D8;
 				INFOPLIST_FILE = FaceSwap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.faceswap.smc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -365,6 +402,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V62PZ8S9D8;
 				INFOPLIST_FILE = FaceSwap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.faceswap.smc;
 				PRODUCT_NAME = "$(TARGET_NAME)";

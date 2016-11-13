@@ -8,20 +8,22 @@
 
 import UIKit
 
-class Utils {
+class FaceManager {
     
-    static let shared = Utils()
+    static let shared = FaceManager()
     private init() {}
     
     func facesFrom(imageView: UIImageView) -> [Face] {
         var faces: [Face] = []
         
         guard let photo = CIImage(image: imageView.image!) else { return [] }
-        let context = CIContext(options: [kCIContextUseSoftwareRenderer: true])     // BSXPCMessage prevention
+        // BSXPCMessage prevention options
+        let context = CIContext(options: [kCIContextUseSoftwareRenderer: true])
         let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
         let detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: options)
-        let features = detector?.features(in: photo, options: [CIDetectorImageOrientation: Utils.shared.exif(fromImageView: imageView)])
+        let features = detector?.features(in: photo, options: [CIDetectorImageOrientation: exif(fromImageView: imageView)])
         
+        // convert CoreImage coordinates to UIView coordinates
         let ciImageSize = photo.extent.size
         var transform = CGAffineTransform(scaleX: 1, y: -1)
         transform = transform.translatedBy(x: 0, y: -ciImageSize.height)
@@ -30,6 +32,7 @@ class Utils {
         
         // for all faces
         for face in features as! [CIFaceFeature] {
+            // apply transrom to convert coordinates
             let faceViewBounds = face.bounds.applying(transform)
             
             // crop them and save to image array
@@ -44,6 +47,7 @@ class Utils {
     
     func exif(fromImageView imageView: UIImageView) -> Int {
         var exifOrientation = 6
+        
         switch (imageView.image!.imageOrientation) {
         case .up:
             exifOrientation = 1

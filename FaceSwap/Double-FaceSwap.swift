@@ -7,3 +7,10 @@
 //
 
 import Foundation
+import UIKit
+
+extension Double {
+    func toRadians() -> CGFloat {
+        return CGFloat(self * .pi / 180.0)
+    }
+}

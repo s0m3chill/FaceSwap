@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import UIKit
+
+class Face {
+    var image: UIImage
+    var frame: CGRect
+    
+    init(image: UIImage, frame: CGRect) {
+        self.image = image
+        self.frame = frame
+    }
+}
