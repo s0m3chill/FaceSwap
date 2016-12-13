@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // stub
-        photoIV.image = UIImage(named: "test.jpg")
+        photoIV.image = UIImage(named: "test2.jpg")
         swap(UIButton())
     }
     
